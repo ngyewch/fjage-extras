@@ -48,6 +48,12 @@ public abstract class AbstractClient
     return new RequestFuture(req);
   }
 
+  protected void doSend(Message msg) {
+    msg.setSender(proxyAgentID);
+    msg.setRecipient(getRecipientAgentID());
+    container.send(msg);
+  }
+
   protected <T extends Message> Result<T> doRequest(Message req, Class<T> type)
       throws InterruptedException, TimeoutException {
     final Future<Message> requestFuture = doAsyncRequest(req);
