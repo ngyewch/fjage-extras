@@ -8,7 +8,7 @@ subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
     group = "com.github.ngyewch.fjage-extras"
-    version = "0.2.0"
+    version = "0.2.1"
     configure<PublishingExtension> {
         repositories {
             maven {

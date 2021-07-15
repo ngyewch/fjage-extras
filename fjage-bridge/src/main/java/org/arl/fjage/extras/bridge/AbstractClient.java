@@ -95,7 +95,7 @@ public abstract class AbstractClient
   private Result<Message> postProcess(Message rsp, Performative performative) {
     if (rsp == null) {
       return Result.err(null);
-    } else if (rsp.getPerformative() == Performative.AGREE) {
+    } else if (rsp.getPerformative() == ((performative != null) ? performative : Performative.AGREE)) {
       return Result.ok(rsp);
     } else {
       return Result.err(rsp.getPerformative());
