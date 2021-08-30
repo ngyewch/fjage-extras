@@ -30,7 +30,6 @@ subprojects {
 
 allprojects {
     repositories {
-        maven { url = rootProject.file("repo").toURI() }
         mavenCentral()
     }
 
