@@ -1,6 +1,6 @@
 plugins {
-    id("ca.cutterslade.analyze") version "1.7.0"
-    id("com.asarkar.gradle.build-time-tracker") version "3.0.0"
+    id("ca.cutterslade.analyze") version "1.7.1"
+    id("com.asarkar.gradle.build-time-tracker") version "3.0.1"
     id("com.github.ben-manes.versions") version "0.39.0"
 }
 
