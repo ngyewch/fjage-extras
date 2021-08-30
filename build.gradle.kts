@@ -7,22 +7,28 @@ plugins {
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "signing")
+    apply(plugin = "ca.cutterslade.analyze")
+    apply(plugin = "com.github.ben-manes.versions")
+
     group = "com.github.ngyewch.fjage-extras"
     version = "0.2.1"
+    val isReleaseVersion = !(project.version as String).endsWith("SNAPSHOT")
+
     configure<PublishingExtension> {
         repositories {
             maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/ngyewch/fjage-extras")
-                credentials {
-                    username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                    password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                if (isReleaseVersion) {
+                    setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                } else {
+                    setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots/")
                 }
-            }
-        }
-        publications {
-            register<MavenPublication>("gpr") {
-                from(components["java"])
+                credentials {
+                    val ossrhUsername: String? by project
+                    val ossrhPassword: String? by project
+                    username = ossrhUsername
+                    password = ossrhPassword
+                }
             }
         }
     }
