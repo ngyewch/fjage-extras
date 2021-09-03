@@ -12,7 +12,7 @@ subprojects {
     apply(plugin = "com.github.ben-manes.versions")
 
     group = "com.github.ngyewch.fjage-extras"
-    version = "0.2.1"
+    version = "0.3.0"
     val isReleaseVersion = !(project.version as String).endsWith("SNAPSHOT")
 
     configure<PublishingExtension> {
