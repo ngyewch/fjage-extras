@@ -5,6 +5,9 @@ import org.arl.fjage.*;
 import java.util.UUID;
 import java.util.concurrent.*;
 
+/**
+ * Abstract client for communicating with a specific fjage agent/service.
+ */
 public abstract class AbstractClient
     implements Client {
 
@@ -16,6 +19,13 @@ public abstract class AbstractClient
   private Integer timeout = null;
   private TimeUnit timeoutUnit = null;
 
+  /**
+   * Constructs a new AbstractClient.
+   *
+   * @param container          fjage container.
+   * @param recipientAgentName Recipient agent name (if specified, service is ignored).
+   * @param service            Service.
+   */
   public AbstractClient(Container container, String recipientAgentName, Enum<?> service) {
     super();
 
@@ -37,23 +47,50 @@ public abstract class AbstractClient
     }
   }
 
+  /**
+   * Set request timeout.
+   *
+   * @param timeout Timeout.
+   * @param unit    Time unit.
+   */
   public void setRequestTimeout(int timeout, TimeUnit unit) {
     this.timeout = timeout;
     this.timeoutUnit = unit;
   }
 
+  /**
+   * Performs an asynchronous request.
+   *
+   * @param req Request.
+   * @return Message future.
+   */
   protected Future<Message> doAsyncRequest(Message req) {
     req.setSender(proxyAgentID);
     req.setRecipient(getRecipientAgentID());
     return new RequestFuture(req);
   }
 
+  /**
+   * Performs a send operation.
+   *
+   * @param msg Message.
+   */
   protected void doSend(Message msg) {
     msg.setSender(proxyAgentID);
     msg.setRecipient(getRecipientAgentID());
     container.send(msg);
   }
 
+  /**
+   * Performs a synchronous request.
+   *
+   * @param req  Request.
+   * @param type Expected response message type.
+   * @param <T>  Response message type.
+   * @return Result.
+   * @throws InterruptedException If the synchronous request was interrupted.
+   * @throws TimeoutException     If the synchronous request timed out.
+   */
   protected <T extends Message> Result<T> doRequest(Message req, Class<T> type)
       throws InterruptedException, TimeoutException {
     final Future<Message> requestFuture = doAsyncRequest(req);
@@ -68,6 +105,15 @@ public abstract class AbstractClient
     }
   }
 
+  /**
+   * Performs a synchronous request.
+   *
+   * @param req          Request.
+   * @param performative Expected performative.
+   * @return Result.
+   * @throws InterruptedException If the synchronous request was interrupted.
+   * @throws TimeoutException     If the synchronous request timed out.
+   */
   protected Result<Message> doRequest(Message req, Performative performative)
       throws InterruptedException, TimeoutException {
     final Future<Message> requestFuture = doAsyncRequest(req);

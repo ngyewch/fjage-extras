@@ -32,6 +32,16 @@ subprojects {
             }
         }
     }
+
+    tasks.withType<Javadoc> {
+        configure(options, closureOf<StandardJavadocDocletOptions> {
+            addStringOption("Xdoclint:none", "-quiet")
+            links = listOf(
+                "https://docs.oracle.com/javase/8/docs/api/",
+                "https://org-arl.github.io/fjage/javadoc/",
+            )
+        })
+    }
 }
 
 allprojects {
