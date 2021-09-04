@@ -10,6 +10,9 @@ import org.arl.fjage.remote.JsonMessage;
 
 import java.util.logging.Logger;
 
+/**
+ * Abstract firewall that handles access per session/connection.
+ */
 public abstract class AbstractConnectorFirewall
     implements Firewall {
 
@@ -17,6 +20,11 @@ public abstract class AbstractConnectorFirewall
   private final ThreadLocal<Session> sessionThreadLocal = new ThreadLocal<>();
   private final Logger log = Logger.getLogger(getClass().getName());
 
+  /**
+   * Constructs a new AbstractConnectorFirewall.
+   *
+   * @param authenticationManager Authentication manager.
+   */
   public AbstractConnectorFirewall(AuthenticationManager authenticationManager) {
     super();
 
@@ -45,8 +53,22 @@ public abstract class AbstractConnectorFirewall
     return session.isAuthenticated();
   }
 
+  /**
+   * Checks whether a message intended for the specified agent/topic may be sent over this connection/session.
+   *
+   * @param session Session (non-null, may or may not be authenticated).
+   * @param rq      Incoming JSON request.
+   * @return <code>true</code> to accept, <code>false</code> to reject.
+   */
   protected abstract boolean permit(Session session, JsonMessage rq);
 
+  /**
+   * Checks whether a message intended for the specified agent/topic may be sent over this connection/session.
+   *
+   * @param session Session (non-null, may or may not be authenticated).
+   * @param aid     Recipient agent/topic for the message.
+   * @return <code>true</code> to accept, <code>false</code> to reject.
+   */
   protected abstract boolean permit(Session session, AgentID aid);
 
   @Override
@@ -67,6 +89,9 @@ public abstract class AbstractConnectorFirewall
     return permit(session, aid);
   }
 
+  /**
+   * Connection session.
+   */
   public static class Session {
 
     private final Connector connector;
@@ -79,14 +104,29 @@ public abstract class AbstractConnectorFirewall
       this.authentication = authentication;
     }
 
+    /**
+     * Returns the connector.
+     *
+     * @return Connector.
+     */
     public Connector getConnector() {
       return connector;
     }
 
+    /**
+     * Returns the authentication token.
+     *
+     * @return Authentication.
+     */
     public Authentication getAuthentication() {
       return authentication;
     }
 
+    /**
+     * Returns <code>true</code> if authenticated, <code>false</code> otherwise.
+     *
+     * @return <code>true</code> if authenticated, <code>false</code> otherwise.
+     */
     public boolean isAuthenticated() {
       return authentication.isAuthenticated();
     }

@@ -4,6 +4,9 @@ import org.arl.fjage.AgentID;
 import org.arl.fjage.extras.security.authentication.AuthenticationManager;
 import org.arl.fjage.remote.JsonMessage;
 
+/**
+ * Simple AbstractConnectorFirewall that allows all traffic is the session is authenticated.
+ */
 public class SimpleConnectorFirewall
     extends AbstractConnectorFirewall {
 

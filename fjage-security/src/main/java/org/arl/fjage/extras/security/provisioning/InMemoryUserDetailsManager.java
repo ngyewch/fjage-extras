@@ -5,6 +5,9 @@ import org.arl.fjage.extras.security.userdetails.UserDetails;
 
 import java.util.*;
 
+/**
+ * In-memory implementation of UserDetailsManager.
+ */
 public class InMemoryUserDetailsManager
     implements UserDetailsManager {
 

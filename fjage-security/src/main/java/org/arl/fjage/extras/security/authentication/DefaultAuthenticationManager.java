@@ -6,11 +6,19 @@ import org.arl.fjage.extras.security.userdetails.UserDetailsService;
 
 import java.util.Collection;
 
+/**
+ * Default authentication manager.
+ */
 public class DefaultAuthenticationManager
     implements AuthenticationManager {
 
   private final UserDetailsService userDetailsService;
 
+  /**
+   * Constructs a new DefaultAuthenticationManager.
+   *
+   * @param userDetailsService User details service.
+   */
   public DefaultAuthenticationManager(UserDetailsService userDetailsService) {
     super();
 

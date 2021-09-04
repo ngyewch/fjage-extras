@@ -2,6 +2,9 @@ package org.arl.fjage.extras.security.authentication;
 
 import org.arl.fjage.extras.security.core.Authentication;
 
+/**
+ * Base class for Authentication objects.
+ */
 public abstract class AbstractAuthenticationToken
     implements Authentication {
 
